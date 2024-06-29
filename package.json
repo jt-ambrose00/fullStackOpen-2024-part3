@@ -1,0 +1,23 @@
+{
+  "name": "fullstackopen-2024-part3",
+  "version": "1.0.0",
+  "description": "This repository contains all coursework for part3 of Full Stack Open, started in 2024.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jt-ambrose00/fullStackOpen-2024-part3.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jt-ambrose00/fullStackOpen-2024-part3/issues"
+  },
+  "homepage": "https://github.com/jt-ambrose00/fullStackOpen-2024-part3#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
