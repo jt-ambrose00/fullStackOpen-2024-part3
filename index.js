@@ -3,7 +3,17 @@ const morgan = require('morgan');
 const app = express();
 
 app.use(express.json());
-app.use(morgan('tiny'));
+
+morgan.token('request-body', (request, response) => {
+    const body = request.body;
+    return JSON.stringify({name: body.name, number: body.number});
+});
+
+app.post('*', morgan(
+    ':method :url :status :res[content-length] - :response-time ms :request-body'
+));
+app.get('*', morgan('tiny'));
+app.delete('*', morgan('tiny'));
 
 let persons = [
     { 
@@ -87,15 +97,6 @@ app.post('/api/persons', (request, response) => {
     persons = persons.concat(person);
     response.json(person);
 });
-
-// const requestLogger = (request, response, next) => {
-//     console.log('Method:', request.method);
-//     console.log('Path:  ', request.path);
-//     console.log('Body:  ', request.body);
-//     console.log('---');
-//     next();
-// };
-// app.use(requestLogger);
 
 // const unknownEndpoint = (request, response) => {
 //     response.status(404).send({ error: 'unknown endpoint' });
