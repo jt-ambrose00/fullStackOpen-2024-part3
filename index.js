@@ -21,39 +21,20 @@ app.get('*', morgan('tiny'));
 app.delete('*', morgan('tiny'));
 app.put('*', morgan('tiny'));
 
-let persons = [
-    {
-      "id": "1",
-      "name": "Arto Hellas", 
-      "number": "040-123456"
-    },
-    {
-      "id": "2",
-      "name": "Ada Lovelace", 
-      "number": "39-44-5323523"
-    },
-    {
-      "id": "3",
-      "name": "Dan Abramov", 
-      "number": "12-43-234345"
-    },
-    {
-      "id": "4",
-      "name": "Mary Poppendieck", 
-      "number": "39-23-6423122"
-    }
-];
+app.get('/info', (request, response, next) => {
+  Person.countDocuments({})
+    .then(personCount => {
+      const dateTime = new Date();
 
-app.get('/info', (request, response) => {
-    const dateTime = new Date();
-
-    response.send(
-        `<p>phonebook has info for ${persons.length} people</p>` +
-        `<p>${dateTime}</p>`
-    );
+      response.send(
+          `<p>phonebook has info for ${personCount} people</p>` +
+          `<p>${dateTime}</p>`
+      );
+    })
+    .catch(error => next(error));
 });
 
-app.get('/api/persons', (request, response) => {
+app.get('/api/persons', (request, response, next) => {
     Person.find({})
       .then(persons => {
         if (persons) {
@@ -65,7 +46,7 @@ app.get('/api/persons', (request, response) => {
       .catch(error => next(error));
 });
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id)
     .then(person => {
       if (person) {
@@ -85,7 +66,7 @@ app.delete('/api/persons/:id', (request, response, next) => {
     .catch(error => next(error));
 });
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
   const body = request.body;
 
   if (body.name === undefined || body.number === undefined) {
